@@ -3,7 +3,10 @@
 		   <div class="separator-special">
 		   </div>
 		   <div class="container">
-		     <h2>PT Nur Straits Engineering</h2>
+				 <div class="head-title">
+					 <img src="<?php echo get_bloginfo('template_directory');?>/img/logo-white.png"> </img>
+			     <h2>PT Nur Straits Engineering</h2>
+				 </div>
 		     <div class="row">
 		       <div class="col-lg-4 col-md-4 col-sm-12">
 		        <h3>About</h3>
@@ -16,7 +19,7 @@
 		         <h3>Services</h3>
 		         <ul>
 							 <?php
-								 $backup = $post; 
+								 $backup = $post;
 								 $category_ids = array(get_category_by_slug('services')->term_id);
 								 $args = array (
 									 'category__in' => $category_ids,
