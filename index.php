@@ -22,67 +22,36 @@
 
               <!-- BEGAIN BLOG SLIDER -->
               <div class="blog_slider">
-                <!-- BEGAIN SINGLE BLOG -->
-                <div class="col-lg-4 col-md-4 col-sm-4">
-                  <div class="single_post wow fadeInUp">
-                    <div class="blog_img">
-                      <img src="img/blog_img1.jpg" alt="img">
-                    </div>
-                    <h3>Sed ut perspiciatis unde omnis</h3>
-                    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium</p>
-                  </div>
-                </div>
+								<?php
+		            // get other posts from this category only as related posts //
+		              $backup = $post;  // backup the current object
+		              $category_ids = array(get_category_by_slug('experience')->term_id);
+		              $args = array (
+		                'category__in' => $category_ids,
+		                'posts_per_page'=> 6, // Number of related posts that will be shown.
+		                'caller_get_posts'=> 1
+		              );
 
-                <!-- BEGAIN SINGLE BLOG -->
-                <div class="col-lg-4 col-md-4 col-sm-4">
-                  <div class="single_post wow fadeInUp">
-                    <div class="blog_img">
-                      <img src="img/blog_img2.jpg" alt="img">
-                    </div>
-                    <h3>Sed ut perspiciatis unde omnis</h3>
-                    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium</p>
-                  </div>
-                </div>
-                <!-- BEGAIN SINGLE BLOG -->
-                <div class="col-lg-4 col-md-4 col-sm-4">
-                  <div class="single_post wow fadeInUp">
-                    <div class="blog_img">
-                      <img src="img/blog_img3.jpg" alt="img">
-                    </div>
-                    <h3>Sed ut perspiciatis unde omnis</h3>
-                    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium</p>
-                  </div>
-                </div>
-                <!-- BEGAIN SINGLE BLOG -->
-                <div class="col-lg-4 col-md-4 col-sm-4">
-                  <div class="single_post wow fadeInUp">
-                    <div class="blog_img">
-                      <img src="img/blog_img4.jpg" alt="img">
-                    </div>
-                    <h3>Sed ut perspiciatis unde omnis</h3>
-                    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium</p>
-                  </div>
-                </div>
-                <!-- BEGAIN SINGLE BLOG -->
-                <div class="col-lg-4 col-md-4 col-sm-4">
-                  <div class="single_post wow fadeInUp">
-                    <div class="blog_img">
-                      <img src="img/blog_img1.jpg" alt="img">
-                    </div>
-                    <h3>Sed ut perspiciatis unde omnis</h3>
-                    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium</p>
-                  </div>
-                </div>
-                <!-- BEGAIN SINGLE BLOG -->
-                <div class="col-lg-4 col-md-4 col-sm-4">
-                  <div class="single_post wow fadeInUp">
-                    <div class="blog_img">
-                      <img src="img/blog_img2.jpg" alt="img">
-                    </div>
-                    <h3>Sed ut perspiciatis unde omnis</h3>
-                    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium</p>
-                  </div>
-                </div>
+		              $my_query = new wp_query($args);
+		              if( $my_query->have_posts() ) {
+		                  while ($my_query->have_posts()) : $my_query->the_post();
+		              ?>
+										<div class="col-lg-4 col-md-4 col-sm-4">
+		                  <div class="single_post wow fadeInUp">
+												<?php $featured_img_url = wp_get_attachment_url( get_post_thumbnail_id($post->ID, 'thumbnail') ); ?>
+		                    <div class="blog_img">
+		                      <img src="<?php echo $featured_img_url; ?>" alt="img">
+		                    </div>
+												<h3><?php the_title(); ?></h3>
+		                    <p><?php echo get_field('client');?></p>
+		                  </div>
+		                </div>
+		              <?php
+		                endwhile;
+		              }
+		              $post = $backup;  // copy it back
+		              wp_reset_query(); // to use the original query again
+		            ?>
               </div>
             </div>
           </div>
@@ -107,40 +76,38 @@
           <div class="col-lg-12 col-md-12">
             <!-- BEGAIN BLOG CONTENT -->
             <div class="blog_content">
-
               <!-- BEGAIN BLOG SLIDER -->
-              <div class="slider">
-                <!-- BEGAIN SINGLE BLOG -->
-                <div class="col-lg-4 col-md-4 col-sm-4">
-                  <div class="single_post wow fadeInUp">
-                    <div class="blog_img">
-                      <img src="img/blog_img1.jpg" alt="img">
-                    </div>
-                    <h3>Sed ut perspiciatis unde omnis</h3>
-                    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium</p>
-                  </div>
-                </div>
+							<div class="blog_slider">
+								<?php
+		            // get other posts from this category only as related posts //
+		              $backup = $post;  // backup the current object
+		              $category_ids = array(get_category_by_slug('services')->term_id);
+		              $args = array (
+		                'category__in' => $category_ids,
+		                'posts_per_page'=> 6, // Number of related posts that will be shown.
+		                'caller_get_posts'=> 1
+		              );
 
-                <!-- BEGAIN SINGLE BLOG -->
-                <div class="col-lg-4 col-md-4 col-sm-4">
-                  <div class="single_post wow fadeInUp">
-                    <div class="blog_img">
-                      <img src="img/blog_img2.jpg" alt="img">
-                    </div>
-                    <h3>Sed ut perspiciatis unde omnis</h3>
-                    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium</p>
-                  </div>
-                </div>
-                <!-- BEGAIN SINGLE BLOG -->
-                <div class="col-lg-4 col-md-4 col-sm-4">
-                  <div class="single_post wow fadeInUp">
-                    <div class="blog_img">
-                      <img src="img/blog_img3.jpg" alt="img">
-                    </div>
-                    <h3>Sed ut perspiciatis unde omnis</h3>
-                    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium</p>
-                  </div>
-                </div>
+		              $my_query = new wp_query($args);
+		              if( $my_query->have_posts() ) {
+		                  while ($my_query->have_posts()) : $my_query->the_post();
+		              ?>
+										<div class="col-lg-4 col-md-4 col-sm-4">
+		                  <div class="single_post wow fadeInUp">
+												<?php $featured_img_url = wp_get_attachment_url( get_post_thumbnail_id($post->ID, 'thumbnail') ); ?>
+		                    <div class="blog_img">
+		                      <img src="<?php echo $featured_img_url; ?>" alt="img">
+		                    </div>
+												<h3><?php the_title(); ?></h3>
+		                    <p><?php echo get_field('client');?></p>
+		                  </div>
+		                </div>
+		              <?php
+		                endwhile;
+		              }
+		              $post = $backup;  // copy it back
+		              wp_reset_query(); // to use the original query again
+		            ?>
               </div>
             </div>
           </div>

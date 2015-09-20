@@ -1,12 +1,14 @@
+`
 /*
-Template Name: SinglePro - Multipurpose Bootstrap HTML5/CSS3 One Page Template
-Template URI:http://www.wpfreeware.com/themes/premium/singlepro/
-Author: WpFreeware Team
-Author URI: https://wrapbootstrap.com/user/wpfreeware
-Description: SinglePro - Multipurpose Bootstrap HTML5/CSS3 One Page Template.
-Version: 1.0
-Tags: light, white, landing page,single page,Multipurpose,custom-colors,Bootstrap,responsive, html5, css3
+Theme Name: NURSEC
+Theme URI: http://RARARA.com/
+Description: RRARARARA
+Author: RARARARAR
+Author URI: http://RARARA.com/about/
+Template: twentyeleven
+Version: 0.1.0
 */
+'
 
 
 /* Table of Content
@@ -1496,6 +1498,7 @@ textarea .form-control {
 
 .dropdown-submenu {
   position: relative;
+  min-width: 350px;
 }
 .dropdown-submenu > .dropdown-menu {
   top: 0;
@@ -1578,6 +1581,48 @@ textarea .form-control {
   margin-top: 5px;
   text-align: center;
   font-size: 1.4em;
+}
+
+article h2 {
+  font-size: 40px;
+}
+
+article {
+  margin-bottom: 20px;
+}
+
+article p {
+  font-size: 1.2em;
+  text-align: justify;
+}
+
+article a:hover {
+  text-decoration: none;
+}
+
+.page-notfound {
+  width:100%;
+  height:100vh;
+}
+
+.page-notfound-container {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: center;
+    color: #fff;
+    background-color: #4B99C6;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-bottom: 11px solid #236F93;
+}
+
+.page-notfound-container h2 {
+  color: #fff
+}
+
+.page-notfound-container p {
+  font-size: 22px;
 }
 
 /*======================///////////////

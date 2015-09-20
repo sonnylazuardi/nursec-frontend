@@ -61,10 +61,10 @@
 
             <!-- LOGO -->
 						<?php if (is_home()) { ?>
-							<a id="navbar-text-frontpage" class="navbar-brand navbar-text" href="#" style="display:none;">NURSEC</a>
-	            <a id="navbar-img-frontpage" class="navbar-brand navbar-img" href="#"><img src="img/logo.png" alt="logo"></a>
+							<a id="navbar-text-frontpage" class="navbar-brand navbar-text" href=<?php echo get_home_url(); ?> style="display:none;"><?php echo get_bloginfo( 'name' ); ?></a>
+	            <a id="navbar-img-frontpage" class="navbar-brand navbar-img" href=<?php echo get_home_url(); ?>><img src="<?php echo get_site_icon_url() ?>" alt="logo"></a>
 						<?php } else { ?>
-							<a class="navbar-brand navbar-text" href="#">NURSEC</a>
+							<a class="navbar-brand navbar-text" href="<?php echo get_home_url(); ?>"><?php echo get_bloginfo( 'name' ); ?></a>
 						<?php } ?>
 
 
@@ -76,45 +76,53 @@
 						<?php } else { ?>
 						<ul id="top-menu" class="nav navbar-nav main_nav navbar-nav-forced">
 						<?php } ?>
-              <li class="active"><a href="#">Home</a></li>
-              <li class="dropdown">
-                <a href="#services" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Services <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-        			    <li class="dropdown-submenu">
-        			        <a tabindex="-1" href="#s1">Engineering Design<i class="fa fa-caret-right pull-right chevron-center"></i></a>
-        			        <ul class="dropdown-menu">
-        			          <li><a tabindex="-1" href="#s1-1">Detail Engineering</a></li>
-        			          <li><a href="#s1-2">Feed</a></li>
-        			        </ul>
-        			    </li>
-                  <li><a href="#s2">Civil and Infrastructure Planning</a></li>
-                  <li><a href="#s3">Geophysical Survey</a></li>
-                  <li><a href="#s4">Geotechnical Survey</a></li>
-                  <li><a href="#s5">Soil Laboratory Test</a></li>
-                  <li><a href="#s6">Land and Aerial Survey</a></li>
-                  <li><a href="#s7">Marine, Offshore, and Subsea Structures</a></li>
-                </ul>
-              </li>
-              <li class="dropdown">
-                <a href="#facilities" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Facilities <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                  <li><a href="#s2">Soil Mechanic Lab</a></li>
-                  <li><a href="#s3">Warehouse</a></li>
-                  <li><a href="#s4">Workshop</a></li>
-                </ul>
-              </li>
-              <li><a href="#team">Experiences</a></li>
-              <li><a href="#team">News</a></li>
-              <li class="dropdown">
-                <a href="#facilities" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">About Us <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                  <li><a href="#s2">History</a></li>
-                  <li><a href="#s3">Vision and Mission</a></li>
-                  <li><a href="#s4">Company Profile</a></li>
-                  <li><a href="#s4">HSE Policy</a></li>
-                  <li><a href="#s4">Gallery</a></li>
-                </ul>
-              </li>
+              <?php
+              $args = array(
+                'orderby' => 'name',
+                'parent' => 0,
+                'hide_empty' => 0,
+                'exclude' => '1, 7',
+                'order' => 'ASC'
+                );
+              global $ancestor;
+              global $ancestorchild;
+              $categories = get_categories($args);
+                foreach($categories as $category) {
+                  $childcats = get_categories('child_of=' . $category->cat_ID . '&hide_empty=0');
+                  if (count($childcats) > 0 ) {
+                    echo '<li class="dropdown"><a href="' . get_category_link( $category->term_id ) . '" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">' . $category->name . ' <span class="caret"></span></a>';
+                    echo '<ul class="dropdown-menu">';
+                  }
+                  else {
+                    echo '<li><a href="' . get_category_link( $category->term_id ) . '">' . $category->name . '</a></li>';
+                  }
+                  foreach ($childcats as $childcat) {
+                    if (cat_is_ancestor_of($ancestor, $childcat->cat_ID) == false){
+                      $ancestor = $childcat->cat_ID;
+                      $childchildcats = get_categories('child_of=' .  $childcat->cat_ID . '&hide_empty=0');
+                      if (count($childchildcats) > 0 ){
+                        echo '<li class="dropdown-submenu"><a tabindex="-1" href="' . get_category_link( $childcat->term_id ) . '">' . $childcat->name . '<i class="fa fa-caret-right pull-right chevron-center"></i></a>';
+                        echo '<ul class="dropdown-menu">';
+                      }
+                      else {
+                        echo '<li><a href="' . get_category_link( $childcat->term_id ) . '">' . $childcat->name . '</a></li>';
+                      }
+                      foreach ($childchildcats as $childchildcat) {
+                        if (cat_is_ancestor_of($ancestorchild, $childchildcat->cat_ID) == false){
+                          echo '<li><a href="' . get_category_link( $childchildcat->term_id ) . '">' . $childchildcat->cat_name . '</a></li>';
+                          $ancestorchild = $childcat->cat_ID;
+                        }
+                      }
+                      if (count($childchildcats) > 0 ){
+                        echo '</ul></li>';
+                      }
+                    }
+                  }
+                  if (count($childcats) > 0) {
+                    echo '</ul></li>';
+                  }
+                }
+              ?>
             </ul>
           </div><!--/.nav-collapse -->
           </div>
@@ -127,48 +135,39 @@
         <!-- BEGIN SLIDER-->
         <div id="slides">
           <ul class="slides-container">
+            <?php
+            // get other posts from this category only as related posts //
+              $backup = $post;  // backup the current object
+              $category_ids = array(get_category_by_slug('slider')->term_id);
+              $args = array (
+                'category__in' => $category_ids,
+                'posts_per_page'=>3, // Number of related posts that will be shown.
+                'caller_get_posts'=>1
+              );
 
-            <!-- THE FIRST SLIDE-->
-            <li>
-              <!-- FIRST SLIDE OVERLAY -->
-              <div class="slider_overlay"></div>
-              <!-- FIRST SLIDE MAIN IMAGE -->
-              <img src="img/full-slider/full-slide1.jpg" alt="img">
-              <!-- FIRST SLIDE CAPTION-->
-              <div class="slider_caption">
-                <h2>We guarantee quality warehouse</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada magna tempus justo ornare, sed aliquet lectus semper. Integer eget convallis lorem. Duis bibendum mi ac elementum hendrerit.</p>
-                <a href="#" class="slider_btn">Check Our Warehouse</a>
-              </div>
-            </li>
-
-            <!-- THE SECOND SLIDE-->
-            <li>
-              <!-- SECOND SLIDE OVERLAY -->
-              <div class="slider_overlay"></div>
-              <!-- SECOND SLIDE MAIN IMAGE -->
-              <img src="img/full-slider/full-slide2.jpg" alt="img">
-              <!-- SECOND SLIDE CAPTION-->
-              <div class="slider_caption">
-                <h2>Best team you can found</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada magna tempus justo ornare, sed aliquet lectus semper. Integer eget convallis lorem. Duis bibendum mi ac elementum hendrerit.</p>
-                <a href="#" class="slider_btn">Who We are</a>
-              </div>
-            </li>
-
-            <!-- THE THIRD SLIDE-->
-            <li>
-              <!-- THIRD SLIDE OVERLAY -->
-              <div class="slider_overlay"></div>
-              <!-- THIRD SLIDE MAIN IMAGE -->
-              <img src="img/full-slider/full-slide3.jpg" alt="img">
-              <!-- THIRD SLIDE CAPTION-->
-              <div class="slider_caption">
-                <h2>Another highlight</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada magna tempus justo ornare, sed aliquet lectus semper. Integer eget convallis lorem. Duis bibendum mi ac elementum hendrerit.</p>
-                <a href="#" class="slider_btn">Click</a>
-              </div>
-            </li>
+              $my_query = new wp_query($args);
+              if( $my_query->have_posts() ) {
+                  while ($my_query->have_posts()) : $my_query->the_post();
+              ?>
+                <li>
+                  <!-- FIRST SLIDE OVERLAY -->
+                  <div class="slider_overlay"></div>
+                  <!-- FIRST SLIDE MAIN IMAGE -->
+                  <?php $image = get_field('image');?>
+                  <img src="<?php echo $image['url']; ?>" alt="img">
+                  <!-- FIRST SLIDE CAPTION-->
+                  <div class="slider_caption">
+                    <h2><?php the_title(); ?></h2>
+                    <p><?php echo get_field('description');?></p>
+                    <a href="<?php echo get_field('link'); ?>" class="slider_btn">More</a>
+                  </div>
+                </li>
+              <?php
+                endwhile;
+              }
+              $post = $backup;  // copy it back
+              wp_reset_query(); // to use the original query again
+            ?>
           </ul>
           <!-- BEGAIN SLIDER NAVIGATION -->
           <nav class="slides-navigation">
@@ -188,9 +187,9 @@
       </div>
       <!-- END SLIDER AREA -->
       <div class="decoration">
-        <img class="decoration-top-img" src="<"> </img>
+        <img class="decoration-top-img" src="<?php echo get_bloginfo('template_directory');?>/img/top-decoration.png"> </img>
       </div>
-			<?php } else { ?>
+			<?php } else if (!is_404()){ ?>
 			<?php $featured_img_url = wp_get_attachment_url( get_post_thumbnail_id($post->ID, 'thumbnail') ); ?>
 			<div class="page-banner" style="background:url('<?php echo $featured_img_url ?>') center center no-repeat; background-size:cover">
 	      <div class="page-heading">
@@ -199,37 +198,3 @@
     	</div>
 			<?php } ?>
     </header>
-    <?php
-    $args = array(
-      'orderby' => 'name',
-      'parent' => 3,
-      'order' => 'ASC'
-      );
-    global $ancestor;
-    global $ancestorchild;
-    $categories = get_categories($args);
-      foreach($categories as $category) {
-        echo '<p>Category: <a href="' . get_category_link( $category->term_id ) . '" title="' . sprintf( __( "View all posts in %s" ), $category->name ) . '" ' . '>' . $category->name.'</a> </p> ';
-        echo '<p> Description:'. $category->description . '</p>';
-        $childcats = get_categories('child_of=' . $category->cat_ID );
-        foreach ($childcats as $childcat) {
-          if (cat_is_ancestor_of($ancestor, $childcat->cat_ID) == false){
-            echo '<li><h2><a href="'.get_category_link($childcat->cat_ID).'">';
-            echo $childcat->cat_name . '</a></h2>';
-            echo '</li>';
-            $ancestor = $childcat->cat_ID;
-            $childchildcats = get_categories('child_of=' .  $childcat->cat_ID );
-            foreach ($childchildcats as $childchildcat) {
-              echo "<p>AHAI</p>";
-              if (cat_is_ancestor_of($ancestorchild, $childchildcat->cat_ID) == false){
-                echo '<li><h2><a href="'.get_category_link($childchildcat->cat_ID).'">';
-                echo $childchildcat->cat_name . '</a></h2>';
-                echo '<p>'.$childchildcat->category_description.'</p>';
-                echo '</li>';
-                $ancestorchild = $childcat->cat_ID;
-              }
-            }
-          }
-        }
-      }
-    ?>
