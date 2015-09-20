@@ -127,6 +127,12 @@ function html5blank_header_scripts()
 
       wp_register_script('custom', get_template_directory_uri() . '/js/custom.js', array(), '1.0.0'); // Custom scripts
       wp_enqueue_script('custom'); // Enqueue it!
+
+      // wp_register_script('leaflet', get_template_directory_uri() . '/js/leaflet.js', array(), '1.0.0'); // leaflet scripts
+      // wp_enqueue_script('leaflet'); // Enqueue it!
+
+      wp_register_script('gmaps', get_template_directory_uri() . '/js/gmaps.js', array(), '1.0.0'); // leaflet scripts
+      wp_enqueue_script('gmaps'); // Enqueue it!
     }
 }
 
@@ -168,6 +174,9 @@ function html5blank_styles()
 
     wp_register_style('mobile', get_template_directory_uri() . '/mobile.css', array(), '1.0', 'all');
     wp_enqueue_style('mobile'); // Enqueue it!
+
+    // wp_register_style('leaflet', get_template_directory_uri() . '/css/leaflet.css', array(), '1.0', 'all');
+    // wp_enqueue_style('leaflet'); // Enqueue it!
 }
 
 // Register HTML5 Blank Navigation

@@ -208,7 +208,7 @@
 	        <h2><?php echo  'Searching: "' . get_search_query() . '"' ?></h2>
 	      </div>
     	</div>
-      <?php } else if (!is_404()){ ?>
+      <?php } else if (!is_404() && !is_category()){ ?>
 			<?php $featured_img_url = wp_get_attachment_url( get_post_thumbnail_id($post->ID, 'thumbnail') ); ?>
 			<div class="page-banner" style="background:url('<?php echo $featured_img_url ?>') center center no-repeat; background-size:cover">
 	      <div class="page-heading">
