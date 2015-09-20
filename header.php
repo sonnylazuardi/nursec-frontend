@@ -123,6 +123,19 @@
                   }
                 }
               ?>
+              <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="fa fa-search"></span></a>
+                <ul class="dropdown-menu">
+                  <li class="searchbar-nav">
+                    <form class="form-inline">
+                      <div class="form-group">
+                        <label class="sr-only" for="exampleInputEmail3">Keywords</label>
+                        <input type="search" class="form-control" id="s" name="s" placeholder="Keywords">
+                      </div>
+                      <button type="submit" class="btn btn-default">Search</button>
+                    </form>
+                  </li>
+                </ul>
+              </li>
             </ul>
           </div><!--/.nav-collapse -->
           </div>
@@ -189,7 +202,13 @@
       <div class="decoration">
         <img class="decoration-top-img" src="<?php echo get_bloginfo('template_directory');?>/img/top-decoration.png"> </img>
       </div>
-			<?php } else if (!is_404()){ ?>
+			<?php } else if (is_search()) { ?>
+      <div class="page-banner" style="background:url('<?php echo $featured_img_url ?>') center center no-repeat; background-size:cover">
+	      <div class="page-heading">
+	        <h2><?php echo  'Searching: "' . get_search_query() . '"' ?></h2>
+	      </div>
+    	</div>
+      <?php } else if (!is_404()){ ?>
 			<?php $featured_img_url = wp_get_attachment_url( get_post_thumbnail_id($post->ID, 'thumbnail') ); ?>
 			<div class="page-banner" style="background:url('<?php echo $featured_img_url ?>') center center no-repeat; background-size:cover">
 	      <div class="page-heading">

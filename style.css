@@ -1625,6 +1625,12 @@ article a:hover {
   font-size: 22px;
 }
 
+.searchbar-nav {
+  width: 280px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
 /*======================///////////////
 			start responsive style
 =====================///////////////////////*/
