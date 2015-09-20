@@ -40,9 +40,9 @@
 		                  <div class="single_post wow fadeInUp">
 												<?php $featured_img_url = wp_get_attachment_url( get_post_thumbnail_id($post->ID, 'thumbnail') ); ?>
 		                    <div class="blog_img">
-		                      <img src="<?php echo $featured_img_url; ?>" alt="img">
+		                      <a href="<?php the_permalink($post->ID); ?>"> <img src="<?php echo $featured_img_url; ?>" alt="img"> </a>
 		                    </div>
-												<h3><?php the_title(); ?></h3>
+												<a href="<?php the_permalink($post->ID); ?>"><h3><?php the_title(); ?></h3></a>
 		                    <p><?php echo get_field('client');?></p>
 		                  </div>
 		                </div>
@@ -96,10 +96,9 @@
 		                  <div class="single_post wow fadeInUp">
 												<?php $featured_img_url = wp_get_attachment_url( get_post_thumbnail_id($post->ID, 'thumbnail') ); ?>
 		                    <div class="blog_img">
-		                      <img src="<?php echo $featured_img_url; ?>" alt="img">
+		                      <a href="<?php the_permalink($post->ID); ?>"> <img src="<?php echo $featured_img_url; ?>" alt="img"> </a>
 		                    </div>
-												<h3><?php the_title(); ?></h3>
-		                    <p><?php echo get_field('client');?></p>
+												<a href="<?php the_permalink($post->ID); ?>"><h3><?php the_title(); ?></h3></a>
 		                  </div>
 		                </div>
 		              <?php

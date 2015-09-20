@@ -81,7 +81,7 @@
                 'orderby' => 'name',
                 'parent' => 0,
                 'hide_empty' => 0,
-                'exclude' => '1, 7',
+                'exclude' => array(1, get_category_by_slug('slider')->term_id),
                 'order' => 'ASC'
                 );
               global $ancestor;
@@ -90,7 +90,7 @@
                 foreach($categories as $category) {
                   $childcats = get_categories('child_of=' . $category->cat_ID . '&hide_empty=0');
                   if (count($childcats) > 0 ) {
-                    echo '<li class="dropdown"><a href="' . get_category_link( $category->term_id ) . '" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">' . $category->name . ' <span class="caret"></span></a>';
+                    echo '<li class="dropdown"><a href="' . get_category_link( $category->term_id ) . '" role="button" aria-haspopup="true" aria-expanded="false">' . $category->name . ' <span class="caret"></span></a>';
                     echo '<ul class="dropdown-menu">';
                   }
                   else {
@@ -126,7 +126,7 @@
               <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="fa fa-search"></span></a>
                 <ul class="dropdown-menu">
                   <li class="searchbar-nav">
-                    <form class="form-inline">
+                    <form class="form-inline" action="<?php echo get_home_url(); ?>">
                       <div class="form-group">
                         <label class="sr-only" for="exampleInputEmail3">Keywords</label>
                         <input type="search" class="form-control" id="s" name="s" placeholder="Keywords">
@@ -203,9 +203,17 @@
         <img class="decoration-top-img" src="<?php echo get_bloginfo('template_directory');?>/img/top-decoration.png"> </img>
       </div>
 			<?php } else if (is_search()) { ?>
+      <?php $featured_img_url = wp_get_attachment_url( get_post_thumbnail_id($post->ID, 'thumbnail') ); ?>
       <div class="page-banner" style="background:url('<?php echo $featured_img_url ?>') center center no-repeat; background-size:cover">
 	      <div class="page-heading">
 	        <h2><?php echo  'Searching: "' . get_search_query() . '"' ?></h2>
+	      </div>
+    	</div>
+      <?php } else if (is_category()) {?>
+        <?php $featured_img_url = wp_get_attachment_url( get_post_thumbnail_id($post->ID, 'thumbnail') ); ?>
+      <div class="page-banner" style="background:url('<?php echo $featured_img_url ?>') center center no-repeat; background-size:cover">
+	      <div class="page-heading">
+	        <h2><?php echo single_cat_title( '', true ); ?></h2>
 	      </div>
     	</div>
       <?php } else if (!is_404() && !is_category()){ ?>

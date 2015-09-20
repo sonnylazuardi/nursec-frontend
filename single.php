@@ -29,7 +29,7 @@
 									$args = array (
 				            'category__in' => $category_ids,
 				            'post__not_in' => array($post->ID),
-				            'posts_per_page'=>6, // Number of related posts that will be shown.
+				            'posts_per_page'=>4, // Number of related posts that will be shown.
 				            'orderby' => 'rand',
 				            'caller_get_posts'=>1
 					        );
@@ -40,7 +40,7 @@
 			      			?>
 											<div class="page-recommendation-single">
 												<a href="<?php the_permalink($post->ID); ?>">
-													<<?php $featured_img_url = wp_get_attachment_url( get_post_thumbnail_id($post->ID, 'thumbnail') ); ?>
+													<?php $featured_img_url = wp_get_attachment_url( get_post_thumbnail_id($post->ID, 'thumbnail') ); ?>
 													<div class="page-recomendation-img" style="background:url('<?php echo $featured_img_url; ?>') center center no-repeat; background-size:cover"></div>
 												</a>
 												<a href="<?php the_permalink($post->ID); ?>">

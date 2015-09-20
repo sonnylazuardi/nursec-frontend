@@ -40,7 +40,7 @@
 			      			?>
 											<div class="page-recommendation-single">
 												<a href="<?php the_permalink($post->ID); ?>">
-													<<?php $featured_img_url = wp_get_attachment_url( get_post_thumbnail_id($post->ID, 'thumbnail') ); ?>
+													<?php $featured_img_url = wp_get_attachment_url( get_post_thumbnail_id($post->ID, 'thumbnail') ); ?>
 													<div class="page-recomendation-img" style="background:url('<?php echo $featured_img_url; ?>') center center no-repeat; background-size:cover"></div>
 												</a>
 												<a href="<?php the_permalink($post->ID); ?>">

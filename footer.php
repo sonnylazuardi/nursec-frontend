@@ -15,11 +15,26 @@
 		       <div class="col-lg-4 col-md-4 col-sm-12">
 		         <h3>Services</h3>
 		         <ul>
-		           <li>- Engineering Design</li>
-		           <li>- Civil and Infrastructure Planning/li>
-		           <li>- Survey</li>
-		           <li>- Facilities</li>
-		           <li>- Workshop</li>
+							 <?php
+								 $backup = $post; 
+								 $category_ids = array(get_category_by_slug('services')->term_id);
+								 $args = array (
+									 'category__in' => $category_ids,
+									 'posts_per_page'=> 6,
+									 'caller_get_posts'=> 1
+								 );
+
+								 $my_query = new wp_query($args);
+								 if( $my_query->have_posts() ) {
+										 while ($my_query->have_posts()) : $my_query->the_post();
+								 ?>
+			           	<a href="<?php the_permalink($post->ID); ?>" ><li>- <?php the_title(); ?></li></a>
+								 <?php
+									 endwhile;
+								 }
+								 $post = $backup;  // copy it back
+								 wp_reset_query(); // to use the original query again
+							 ?>
 		         </ul>
 		       </div>
 		       <div class="col-lg-4 col-md-4 col-sm-12">
