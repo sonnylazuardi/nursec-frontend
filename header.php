@@ -210,13 +210,26 @@
 	      </div>
     	</div>
       <?php } else if (is_category()) {?>
-        <?php $featured_img_url = wp_get_attachment_url( get_post_thumbnail_id($post->ID, 'thumbnail') ); ?>
-      <div class="page-banner" style="background:url('<?php echo $featured_img_url ?>') center center no-repeat; background-size:cover">
-	      <div class="page-heading">
-	        <h2><?php echo single_cat_title( '', true ); ?></h2>
-	      </div>
-    	</div>
-      <?php } else if (!is_404() && !is_category()){ ?>
+        
+        <?php 
+          $cat = get_category( get_query_var( 'cat' ) );
+          $cat_slug = $cat->slug;
+          if ($cat_slug != 'experience') {
+        ?>
+          
+          <?php $featured_img_url = wp_get_attachment_url( get_post_thumbnail_id($post->ID, 'thumbnail') ); ?>
+          <div class="page-banner" style="background:url('<?php echo $featured_img_url ?>') center center no-repeat; background-size:cover">
+    	      <div class="page-heading">
+    	        <h2><?php echo single_cat_title( '', true ); ?></h2>
+    	      </div>
+        	</div>
+
+        <?php 
+          }
+         ?>
+
+
+      <?php } else if (!is_404()){ ?>
 			<?php $featured_img_url = wp_get_attachment_url( get_post_thumbnail_id($post->ID, 'thumbnail') ); ?>
 			<div class="page-banner" style="background:url('<?php echo $featured_img_url ?>') center center no-repeat; background-size:cover">
 	      <div class="page-heading">

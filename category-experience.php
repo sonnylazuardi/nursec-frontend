@@ -8,13 +8,9 @@
             <div class="container page-container">
                 <div class="row">
                     <div class="col-md-9">
-                        <?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
-                        <div class="page-content">
-                            <?php echo the_content(); ?>
-                        </div>
-                        <?php endwhile; else : ?>
-                            <p><?php _e( 'Sorry, no posts matched your criteria.' ); ?></p>
-                        <?php endif; ?>
+                        <?php get_template_part('loop'); ?>
+
+                        <?php get_template_part('pagination'); ?>
                     </div>
                     <div class="col-md-3">
                         <div class="page-recommendation">
@@ -43,7 +39,7 @@
                             ?>
                                             <div class="page-recommendation-single">
                                                 <a href="<?php the_permalink($post->ID); ?>">
-                                                    <<?php $featured_img_url = wp_get_attachment_url( get_post_thumbnail_id($post->ID, 'thumbnail') ); ?>
+                                                    <?php $featured_img_url = wp_get_attachment_url( get_post_thumbnail_id($post->ID, 'thumbnail') ); ?>
                                                     <div class="page-recomendation-img" style="background:url('<?php echo $featured_img_url; ?>') center center no-repeat; background-size:cover"></div>
                                                 </a>
                                                 <a href="<?php the_permalink($post->ID); ?>">
@@ -121,18 +117,6 @@
           });
         }
         map.fitLatLngBounds(bounds);
-
-        // map.addMarker({
-        //   lat: -12.043333,
-        //   lng: -77.028333,
-        //   title: 'Lima',
-        //   click: function(e) {
-        //     console.log('clicked');
-        //   },
-        //   infoWindow: {
-        //       content: '<p>HTML Content</p>'
-        //     }
-        // });
 
     </script>
 
