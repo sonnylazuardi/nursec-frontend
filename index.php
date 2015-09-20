@@ -13,7 +13,7 @@
             <!-- START BLOG HEADING -->
             <div class="heading">
               <h2 class="wow fadeInLeftBig">Recent Works</h2>
-              <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium</p>
+              <p> <?php echo category_description(get_category_by_slug('experience')->term_id); ?></p>
             </div>
           </div>
           <div class="col-lg-12 col-md-12">
@@ -70,7 +70,7 @@
             <!-- START BLOG HEADING -->
             <div class="heading">
               <h2 class="wow fadeInLeftBig">Services</h2>
-              <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium</p>
+              <p> <?php echo category_description(get_category_by_slug('services')->term_id); ?></p>
             </div>
           </div>
           <div class="col-lg-12 col-md-12">

@@ -2,7 +2,7 @@
 
 	<main role="main">
 		<section>
-			<div class="container page-container">
+			<div class="page-container">
 				<?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
 				<div class="page-content">
 					<?php echo the_content(); ?>

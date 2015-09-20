@@ -25,6 +25,16 @@
 
 jQuery(function($){
 
+	$('.bwg_lightbox_0').magnificPopup({
+		type: 'image',
+		closeOnContentClick: true,
+		mainClass: 'mfp-img-mobile',
+		image: {
+			verticalFit: true
+		}
+
+	});
+
 	/* ----------------------------------------------------------- */
 	/*  1. Superslides Slider
 	/* ----------------------------------------------------------- */
