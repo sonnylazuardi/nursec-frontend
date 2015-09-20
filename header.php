@@ -44,7 +44,11 @@
     <header id="header">
       <!-- BEGIN MENU -->
       <div class="menu_area">
-        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+				<?php if (is_home()) { ?>
+        	<nav id="navbar-frontpage" class="navbar navbar-default navbar-fixed-top" role="navigation">
+				<?php } else { ?>
+					<nav class="navbar navbar-default navbar-fixed-top past-main" role="navigation">
+				<?php } ?>
           <div class="container">
           <div class="navbar-header">
             <!-- FOR MOBILE VIEW COLLAPSED BUTTON -->
@@ -56,13 +60,22 @@
             </button>
 
             <!-- LOGO -->
-            <a class="navbar-brand navbar-text" href="#" style="display:none;">NURSEC</a>
-            <a class="navbar-brand navbar-img" href="#"><img src="img/logo.png" alt="logo"></a>
+						<?php if (is_home()) { ?>
+							<a id="navbar-text-frontpage" class="navbar-brand navbar-text" href="#" style="display:none;">NURSEC</a>
+	            <a id="navbar-img-frontpage" class="navbar-brand navbar-img" href="#"><img src="img/logo.png" alt="logo"></a>
+						<?php } else { ?>
+							<a class="navbar-brand navbar-text" href="#">NURSEC</a>
+						<?php } ?>
+
 
 
           </div>
           <div id="navbar" class="navbar-collapse collapse">
-            <ul id="top-menu" class="nav navbar-nav main_nav">
+						<?php if (is_home()) { ?>
+            <ul id="navbar-nav-frontpage" id="top-menu" class="nav navbar-nav main_nav">
+						<?php } else { ?>
+						<ul id="top-menu" class="nav navbar-nav main_nav navbar-nav-forced">
+						<?php } ?>
               <li class="active"><a href="#">Home</a></li>
               <li class="dropdown">
                 <a href="#services" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Services <span class="caret"></span></a>
@@ -108,7 +121,7 @@
         </nav>
       </div>
       <!-- END MENU -->
-
+			<?php if (is_home()) { ?>
       <!-- BEGIN SLIDER AREA-->
       <div class="slider_area">
         <!-- BEGIN SLIDER-->
@@ -175,49 +188,48 @@
       </div>
       <!-- END SLIDER AREA -->
       <div class="decoration">
-        <img class="decoration-top-img" src="img/top-decoration.png"> </img>
+        <img class="decoration-top-img" src="<"> </img>
       </div>
+			<?php } else { ?>
+			<?php $featured_img_url = wp_get_attachment_url( get_post_thumbnail_id($post->ID, 'thumbnail') ); ?>
+			<div class="page-banner" style="background:url('<?php echo $featured_img_url ?>') center center no-repeat; background-size:cover">
+	      <div class="page-heading">
+	        <h2><?php echo get_the_title(); ?></h2>
+	      </div>
+    	</div>
+			<?php } ?>
     </header>
-<!--
-<!doctype html>
-<html <?php language_attributes(); ?> class="no-js">
-	<head>
-		<meta charset="<?php bloginfo('charset'); ?>">
-		<title><?php wp_title(''); ?><?php if(wp_title('', false)) { echo ' :'; } ?> <?php bloginfo('name'); ?></title>
-
-		<link href="//www.google-analytics.com" rel="dns-prefetch">
-        <link href="<?php echo get_template_directory_uri(); ?>/img/icons/favicon.ico" rel="shortcut icon">
-        <link href="<?php echo get_template_directory_uri(); ?>/img/icons/touch.png" rel="apple-touch-icon-precomposed">
-
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="description" content="<?php bloginfo('description'); ?>">
-
-		<?php wp_head(); ?>
-		<script>
-        // conditionizr.com
-        // configure environment tests
-        conditionizr.config({
-            assets: '<?php echo get_template_directory_uri(); ?>',
-            tests: {}
-        });
-        </script>
-
-	</head>
-	<body <?php body_class(); ?>>
-
-		<div class="wrapper">
-
-			<header class="header clear" role="banner">
-
-					<div class="logo">
-						<a href="<?php echo home_url(); ?>">
-							<img src="<?php echo get_template_directory_uri(); ?>/img/logo.svg" alt="Logo" class="logo-img">
-						</a>
-					</div>
-
-					<nav class="nav" role="navigation">
-						<?php html5blank_nav(); ?>
-					</nav>
-
-			</header> -->
+    <?php
+    $args = array(
+      'orderby' => 'name',
+      'parent' => 3,
+      'order' => 'ASC'
+      );
+    global $ancestor;
+    global $ancestorchild;
+    $categories = get_categories($args);
+      foreach($categories as $category) {
+        echo '<p>Category: <a href="' . get_category_link( $category->term_id ) . '" title="' . sprintf( __( "View all posts in %s" ), $category->name ) . '" ' . '>' . $category->name.'</a> </p> ';
+        echo '<p> Description:'. $category->description . '</p>';
+        $childcats = get_categories('child_of=' . $category->cat_ID );
+        foreach ($childcats as $childcat) {
+          if (cat_is_ancestor_of($ancestor, $childcat->cat_ID) == false){
+            echo '<li><h2><a href="'.get_category_link($childcat->cat_ID).'">';
+            echo $childcat->cat_name . '</a></h2>';
+            echo '</li>';
+            $ancestor = $childcat->cat_ID;
+            $childchildcats = get_categories('child_of=' .  $childcat->cat_ID );
+            foreach ($childchildcats as $childchildcat) {
+              echo "<p>AHAI</p>";
+              if (cat_is_ancestor_of($ancestorchild, $childchildcat->cat_ID) == false){
+                echo '<li><h2><a href="'.get_category_link($childchildcat->cat_ID).'">';
+                echo $childchildcat->cat_name . '</a></h2>';
+                echo '<p>'.$childchildcat->category_description.'</p>';
+                echo '</li>';
+                $ancestorchild = $childcat->cat_ID;
+              }
+            }
+          }
+        }
+      }
+    ?>

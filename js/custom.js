@@ -41,16 +41,16 @@ jQuery(function($){
 	// For fixed top bar
        $(window).scroll(function(){
         if($(window).scrollTop() >100 /*or $(window).height()*/){
-            $(".navbar-fixed-top").addClass('past-main');
-						$(".navbar-nav").addClass('navbar-nav-forced');
-						$(".navbar-text").show();
-						$(".navbar-img").hide();
+            $("#navbar-frontpage").addClass('past-main');
+						$("#navbar-nav-frontpage").addClass('navbar-nav-forced');
+						$("#navbar-text-frontpage").show();
+						$("#navbar-img-frontpage").hide();
         }
     else{
-      $(".navbar-fixed-top").removeClass('past-main');
-			$(".navbar-nav").removeClass('navbar-nav-forced');
-			$(".navbar-text").hide();
-			$(".navbar-img").show();
+      $("#navbar-frontpage").removeClass('past-main');
+			$("#navbar-nav-frontpage").removeClass('navbar-nav-forced');
+			$("#navbar-text-frontpage").hide();
+			$("#navbar-img-frontpage").show();
       }
     });
 

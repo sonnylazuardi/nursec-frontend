@@ -1,67 +1,63 @@
 <?php get_header(); ?>
 
 	<main role="main">
-	<!-- section -->
-	<section>
+		<section>
+			<div class="container page-container">
+				<div class="row">
+					<div class="col-md-9">
+						<?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
+						<div class="page-content">
+							<?php echo the_content(); ?>
+						</div>
+						<?php endwhile; else : ?>
+							<p><?php _e( 'Sorry, no posts matched your criteria.' ); ?></p>
+						<?php endif; ?>
+					</div>
+					<div class="col-md-3">
+						<div class="page-recommendation">
+							<div class="heading">
+								<h2>Other Article</h2>
+							</div>
+							<?php
+							// get other posts from this category only as related posts //
+								$backup = $post;  // backup the current object
+						    $categories = get_the_category($post->ID);
+						    if ($categories) {
+					        $category_ids = array();
+					        foreach($categories as $individual_category) $category_ids[] = $individual_category->term_id;
 
-	<?php if (have_posts()): while (have_posts()) : the_post(); ?>
+									$args = array (
+				            'category__in' => $category_ids,
+				            'post__not_in' => array($post->ID),
+				            'posts_per_page'=>6, // Number of related posts that will be shown.
+				            'orderby' => 'rand',
+				            'caller_get_posts'=>1
+					        );
 
-		<!-- article -->
-		<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-
-			<!-- post thumbnail -->
-			<?php if ( has_post_thumbnail()) : // Check if Thumbnail exists ?>
-				<a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>">
-					<?php the_post_thumbnail(); // Fullsize image for the single post ?>
-				</a>
-			<?php endif; ?>
-			<!-- /post thumbnail -->
-
-			<!-- post title -->
-			<h1>
-				<a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>"><?php the_title(); ?></a>
-			</h1>
-			<!-- /post title -->
-
-			<!-- post details -->
-			<span class="date"><?php the_time('F j, Y'); ?> <?php the_time('g:i a'); ?></span>
-			<span class="author"><?php _e( 'Published by', 'html5blank' ); ?> <?php the_author_posts_link(); ?></span>
-			<span class="comments"><?php if (comments_open( get_the_ID() ) ) comments_popup_link( __( 'Leave your thoughts', 'html5blank' ), __( '1 Comment', 'html5blank' ), __( '% Comments', 'html5blank' )); ?></span>
-			<!-- /post details -->
-
-			<?php the_content(); // Dynamic Content ?>
-
-			<?php the_tags( __( 'Tags: ', 'html5blank' ), ', ', '<br>'); // Separated by commas with a line break at the end ?>
-
-			<p><?php _e( 'Categorised in: ', 'html5blank' ); the_category(', '); // Separated by commas ?></p>
-
-			<p><?php _e( 'This post was written by ', 'html5blank' ); the_author(); ?></p>
-
-			<?php edit_post_link(); // Always handy to have Edit Post Links available ?>
-
-			<?php comments_template(); ?>
-
-		</article>
-		<!-- /article -->
-
-	<?php endwhile; ?>
-
-	<?php else: ?>
-
-		<!-- article -->
-		<article>
-
-			<h1><?php _e( 'Sorry, nothing to display.', 'html5blank' ); ?></h1>
-
-		</article>
-		<!-- /article -->
-
-	<?php endif; ?>
-
-	</section>
-	<!-- /section -->
+					        $my_query = new wp_query($args);
+					        if( $my_query->have_posts() ) {
+					            while ($my_query->have_posts()) : $my_query->the_post();
+			      			?>
+											<div class="page-recommendation-single">
+												<a href="<?php the_permalink($post->ID); ?>">
+													<<?php $featured_img_url = wp_get_attachment_url( get_post_thumbnail_id($post->ID, 'thumbnail') ); ?>
+													<div class="page-recomendation-img" style="background:url('<?php echo $featured_img_url; ?>') center center no-repeat; background-size:cover"></div>
+												</a>
+												<a href="<?php the_permalink($post->ID); ?>">
+													<h3><?php the_title(); ?></h3>
+												</a>
+											</div>
+									<?php
+										endwhile;
+							  	}
+								  $post = $backup;  // copy it back
+								  wp_reset_query(); // to use the original query again
+								}
+							?>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
 	</main>
-
-<?php get_sidebar(); ?>
-
 <?php get_footer(); ?>
