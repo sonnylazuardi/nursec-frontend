@@ -6,8 +6,8 @@
 			<div class="col-md-3">
 				<!-- post thumbnail -->
 				<?php if ( has_post_thumbnail()) : // Check if thumbnail exists ?>
-					<a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>">
-						<?php the_post_thumbnail(array(120,120)); // Declare pixel size you need inside the array ?>
+					<a class="article-list-single-image" href="<?php the_permalink(); ?>" title="<?php the_title(); ?>">
+						<?php the_post_thumbnail(array(240,240)); // Declare pixel size you need inside the array ?>
 					</a>
 				<?php endif; ?>
 			</div>
@@ -21,8 +21,8 @@
 				<!-- /post title -->
 
 				<!-- post details -->
-				<?php html5wp_excerpt('html5wp_index'); // Build your custom callback length in functions.php ?>
-				<span class="date pull-right"><?php the_time('F j, Y'); ?> <?php the_time('g:i a'); ?></span>
+				<p> <?php echo get_the_excerpt(200) ?> </p>
+				<div class="date pull-right"><?php the_time('F j, Y'); ?> <?php the_time('g:i a'); ?></div>
 				<?php edit_post_link(); ?>
 			</div>
 
