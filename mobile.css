@@ -70,6 +70,11 @@
     .blog_content {
         padding-bottom: 50px;
     }
+    #footer h2{
+        display: block;
+        line-height: 20px;
+        margin-bottom: 10px;
+    }
 }
 
 #map { height: 320px; margin-top: 60px; background: #ff0 }

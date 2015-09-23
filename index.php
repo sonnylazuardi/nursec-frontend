@@ -117,7 +117,7 @@
 
     <!--=========== BEGAIN WORKS SECTION ================-->
     <section id="works">
-      <div class="separator-special">
+      <div class="separator-special bottom">
       </div>
       <!-- BEGAIN MILESTONE WORKS SECTION -->
       <div class="row">
