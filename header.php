@@ -11,7 +11,7 @@
 
     <!-- Mobile Specific Metas
     ================================================== -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui">
 
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/png" href="img/favicon.png"/>
@@ -187,12 +187,10 @@
             <!-- PREV IN THE SLIDE -->
             <a class="prev" href="/item1">
               <span class="icon-wrap"></span>
-              <h3><strong>Prev</strong></h3>
             </a>
             <!-- NEXT IN THE SLIDE -->
             <a class="next" href="/item3">
               <span class="icon-wrap"></span>
-              <h3><strong>Next</strong></h3>
             </a>
           </nav>
         </div>
